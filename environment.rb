@@ -4,6 +4,7 @@ require 'sqlite3'
 require 'erb'
 require 'pry'
 
-URL = 'http://www.adk46er.org/peaks/index.html'
+ADK = 'http://www.adk46er.org/peaks/index.html'
+HIKE = 'http://www.everytrail.com/guide/adirondack-46er-list'
 require_relative './mountain.rb'
 require_relative './scrape.rb'

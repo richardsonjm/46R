@@ -4,7 +4,12 @@ class Mountain
     :id => "INTEGER PRIMARY KEY AUTOINCREMENT",
     :rank => "INTEGER",
     :name => "TEXT",
-    :elevation => "INTEGER"
+    :elevation => "INTEGER",
+    :hike => "TEXT",
+    :hike_url => "TEXT",
+    :hike_deets => "TEXT",
+    :hike_desc => "TEXT"
+
   }
 
   def self.attributes
