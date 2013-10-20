@@ -26,9 +26,7 @@ class HikeScraper
   end
 
   def get_hike_deets
-    hike_deets = self.hike_page.css(".odd .meta").collect{|deets| deets.content.strip.gsub! /\t\t\t\t\n\t\t\t\t\t\t/, " "}
-    hike_deets << self.hike_page.css(".even .meta").collect{|deets| deets.content.strip.gsub! /\t\t\t\t\n\t\t\t\t\t\t/, " "}
-    hike_deets.flatten.collect{|deets| deets.split}
+    self.hike_page.css(".container-body .meta").collect{|deets| deets.content.strip.gsub! /\t\t\t\t\n\t\t\t\t\t\t/, " "}.collect{|deets| deets.split}
   end
 
   def get_hike_difficulty
