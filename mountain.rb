@@ -7,9 +7,10 @@ class Mountain
     :elevation => "INTEGER",
     :hike => "TEXT",
     :hike_url => "TEXT",
-    :hike_deets => "TEXT",
+    :hike_diff=> "TEXT",
+    :hike_miles => "INTEGER",
+    :hike_time => "TEXT",
     :hike_desc => "TEXT"
-
   }
 
   def self.attributes
