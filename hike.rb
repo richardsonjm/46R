@@ -1,11 +1,12 @@
-class Mountain
+class Hike
   
   ATTRIBUTES = {
     :id => "INTEGER PRIMARY KEY AUTOINCREMENT",
-    :rank => "INTEGER",
-    :name => "TEXT",
-    :elevation => "INTEGER",
-    :hike_id => "INTEGER"
+    :hike_url => "TEXT",
+    :hike_diff=> "TEXT",
+    :hike_miles => "INTEGER",
+    :hike_time => "TEXT",
+    :hike_desc => "TEXT"
   }
 
   def self.attributes
@@ -33,15 +34,15 @@ class Mountain
 
   self.attributes.each do |attribute_name|
     define_singleton_method("find_by_#{attribute_name}") do |attr_value|
-      sql = "SELECT * FROM mountains WHERE #{attribute_name} = ?"
+      sql = "SELECT * FROM hikes WHERE #{attribute_name} = ?"
       results = @@db.execute sql, attr_value
-      self.mountains_from_rows(results)
+      self.hikes_from_rows(results)
     end
   end 
 
-  def self.mountains_from_rows(results)
+  def self.hikes_from_rows(results)
     results.collect do |row|
-      Mountain.new_with_row(row)
+      Hike.new_with_row(row)
     end
   end
 
@@ -127,7 +128,7 @@ class Mountain
   def save
     if @saved
       update
-    else #if Mountain.find_by_name(self.name).size == 0
+    else
       insert
     end
   end
@@ -145,26 +146,26 @@ class Mountain
   def self.all
     sql = "SELECT * FROM #{self.table_name};"
     results = @@db.execute sql
-    self.mountains_from_rows(results)
+    self.hikes_from_rows(results)
   end
 
-  def ==(other_mountain)
-    self.id == other_mountain.id
+  def ==(other_hike)
+    self.id == other_hike.id
   end
 
-  def self.mountains_from_rows(results)
+  def self.hikes_from_rows(results)
     results.collect do |row|
-      Mountain.new_with_row(row)
+      Hike.new_with_row(row)
     end
   end
 
   def self.find(id)
-    Mountain.find_by_id(id).first
+    Hike.find_by_id(id).first
   end 
 
-  def self.find_by_name(searchname)
-    Mountain.all.select {|mountain| mountain.name.downcase.include?(searchname.downcase.strip.squeeze(' '))}
-  end
+  # def self.find_by_name(searchname)
+  #   Hike.all.select {|hike| hike.name.downcase.include?(searchname.downcase.strip.squeeze(' '))}
+  # end
 
   def delete
     sql = "DELETE FROM #{self.class.table_name} WHERE id = ?"
@@ -174,11 +175,11 @@ class Mountain
   def self.load(id)
     cmd = "SELECT * FROM #{self.table_name} WHERE ID = ?"
     result = @@db.execute(cmd, id)
-    Mountain.new_with_row(result.flatten)
+    Hike.new_with_row(result.flatten)
   end
 
   def self.new_with_row(row)
-    Mountain.new(row[0]).tap do |s|
+    Hike.new(row[0]).tap do |s|
       self.attributes_for_db.each_with_index do |attribute, i|
         s.send("#{attribute}=", row[i+1])
       end

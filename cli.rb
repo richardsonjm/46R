@@ -1,7 +1,7 @@
 require_relative './environment.rb'
 
-# scrape = MountainScraper.new
-# mountains = scrape.call
+new_db = Scrape.new
+new_db.call
 
-hikes = HikeScraper.new
-binding.pry
+cli = CLIMountain.new(Mountain.all)
+cli.call
