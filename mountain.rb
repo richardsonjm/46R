@@ -148,6 +148,11 @@ class Mountain
     self.mountains_from_rows(results)
   end
 
+  # def self.hike_n_mountain
+  #   sql = "SELECT * FROM mountains JOIN hikes ON hikes.id = mountain.hike_id;"
+  #   @@db.execute sql
+  # end
+
   def ==(other_mountain)
     self.id == other_mountain.id
   end

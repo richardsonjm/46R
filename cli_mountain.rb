@@ -1,10 +1,11 @@
 class CLIMountain
-  attr_reader :mountains
+  attr_reader :mountains, :hikes
 
   APPROVED_COMMANDS = [:browse, :show, :help, :exit]
 
-  def initialize(mountains)
+  def initialize(mountains, hikes)
     @mountains = mountains
+    @hikes = hikes
     @on = true
   end
 
@@ -14,6 +15,7 @@ class CLIMountain
 
   def call
     puts "#{self.mountains.size} mountains loaded."
+    puts "#{self.hikes.size} hikes loaded"
     choice = ''
     while on?
       while !APPROVED_COMMANDS.include?(choice)
@@ -28,8 +30,16 @@ class CLIMountain
   end
 
   def browse
-    Mountain.all.each do |m|
-      puts "#{m.rank} #{m.name}"
+    puts "Browse mountains or hikes?"
+    search = gets.chomp.strip.downcase
+    if search == "mountains"
+      Mountain.all.each do |m|
+        puts "#{m.rank} #{m.name}"
+      end
+    elsif search == "hikes"
+      Hike.all.each do |h|
+        puts "#{h.hike_url}"
+      end
     end
   end
 
@@ -48,9 +58,20 @@ class CLIMountain
     print "Enter mountain rank or ANY PART of mountain name: "
     search = gets.chomp.strip.downcase
     if search.to_i.to_s == search     # if user enters rank
-      display(Mountain.find(search.to_i))
+      m = Mountain.find(search.to_i)
+      h = Hike.find(m.hike_id)
+      display(m,h)
     else
-      display(Mountain.find_by_name(search))
+      m = Mountain.find_by_name(search)
+      if m.is_a?(Array)
+        m.each do |mountain|
+          h = Hike.find(mountain.hike_id)
+          display(m,h)
+        end
+      else
+        h = Hike.find(m.hike_id)
+        display(m,h)
+      end
     end
   end
 
@@ -58,7 +79,7 @@ class CLIMountain
     mountain.is_a?(Array) ? mountain : [mountain]
   end
 
-  def display(mountain)
+  def display(mountain, hike)
     puts "Mountain(s)"
     puts "---------------------"
     sarray = makeArray(mountain)
@@ -69,6 +90,11 @@ class CLIMountain
         puts "Name: #{m.name}"
         puts "Rank: #{m.rank}"
         puts "Elevation: #{m.elevation}"
+        puts "URL: #{hike.hike_url}"
+        puts "Difficulty: #{hike.hike_diff}"
+        puts "Miles: #{hike.hike_miles}" 
+        puts "Time: #{hike.hike_time}"
+        puts "Description #{hike.hike_desc}"
       end
     end
   end
