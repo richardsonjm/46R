@@ -2,6 +2,7 @@ class Hike
   
   ATTRIBUTES = {
     :id => "INTEGER PRIMARY KEY AUTOINCREMENT",
+    :hike_name => "TEXT",
     :hike_url => "TEXT",
     :hike_diff=> "TEXT",
     :hike_miles => "INTEGER",

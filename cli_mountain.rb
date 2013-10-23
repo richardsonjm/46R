@@ -38,7 +38,7 @@ class CLIMountain
       end
     elsif search == "hikes"
       Hike.all.each do |h|
-        puts "#{h.hike_url}"
+        puts "#{h.hike_name}"
       end
     end
   end
@@ -90,11 +90,12 @@ class CLIMountain
         puts "Name: #{m.name}"
         puts "Rank: #{m.rank}"
         puts "Elevation: #{m.elevation}"
+        puts "Hike Name: #{hike.hike_name}"
         puts "URL: #{hike.hike_url}"
         puts "Difficulty: #{hike.hike_diff}"
         puts "Miles: #{hike.hike_miles}" 
         puts "Time: #{hike.hike_time}"
-        puts "Description #{hike.hike_desc}"
+        puts "Description: #{hike.hike_desc}"
       end
     end
   end

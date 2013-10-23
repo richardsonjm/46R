@@ -41,8 +41,12 @@ class HikeScraper
     @hikes = [] 
   end
 
+  def get_hike_name
+    self.hike_page.css('.container-body').children.children.children.css('.title a').collect{|hike| hike.content}
+  end
+
   def get_hike_url
-    self.hike_page.css('.container-body').children.children.children.css('.title a').collect{|hike| hike.attr('href')}
+    self.hike_page.css('.container-body').children.children.children.css('.title a').collect{|hike| "http://www.everytrail.com" + hike.attr('href')}
   end
 
   def get_hike_deets
@@ -102,6 +106,7 @@ class Scrape
     i = 0
     while i < 23
       hk = Hike.new
+      hk.hike_name = hikes.get_hike_name[i]
       hk.hike_url = hikes.get_hike_url[i]
       hk.hike_diff = hikes.get_hike_difficulty[i]
       hk.hike_miles = hikes.get_hike_miles[i]
@@ -115,7 +120,7 @@ class Scrape
         elsif mountain.name == "Macomb" || mountain.name == "Hough" || mountain.name == "South Dix" || mountain.name == "East Dix"
           mountain.hike_id = 20 
           mountain.save
-        elsif mountain.name == "Tabletop"
+        elsif mountain.name == "TableTop"
           mountain.hike_id = 19 
           mountain.save
         elsif mountain.name == "MacNaughton*"
